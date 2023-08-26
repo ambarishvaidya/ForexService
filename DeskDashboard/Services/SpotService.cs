@@ -30,10 +30,25 @@ public class SpotService : ISpotService
         return response;
     }
 
+    public void Pause()
+    {
+        _spot.Pause();
+    }
+
+    public void Resume()
+    {
+        _spot.Resume();
+    }
+
     public void Start()
     {
         _spot.Stop();
         _spot.Start();
+    }
+
+    public void Stop()
+    {
+        _spot.Stop();
     }
 }
 

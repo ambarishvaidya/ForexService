@@ -1,4 +1,3 @@
-using DeskDashboard.Endpoints;
 using DeskDashboard.Hubs;
 using DeskDashboard.Services;
 using Forex;
@@ -10,18 +9,18 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);            
+        var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("ForexCorsPolicy",
                                    builder =>
                                    {
-                    builder.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
+                                       builder.WithOrigins("http://localhost:3000")
+                                           .AllowAnyHeader()
+                                           .AllowAnyMethod()
+                                           .AllowCredentials();
+                                   });
         });
 
         builder.Logging.ClearProviders().AddSimpleConsole();
@@ -31,20 +30,20 @@ public class Program
         builder.Services.AddSingleton<DeskDashboard.DataProducers.Forex>();
 
         builder.Services.AddScoped<ISpotService, SpotService>();
-                
+
         var app = builder.Build();
 
         app.UseCors("ForexCorsPolicy");
 
         app.MapHub<ForexHub>("/forexdata");
-        
+
         app.MapGet("/", () => "Hello World!");
 
         var _ = app.Services.GetService<DeskDashboard.DataProducers.Forex>();
 
-        app.MapPost("/api/v1/addsubscription", async(Domain.Spot spot, ISpotService spotService) =>
+        app.MapPost("/api/v1/addsubscription", async (Domain.Spot spot, ISpotService spotService) =>
         {
-            if(spotService.AddSubscription(spot))
+            if (spotService.AddSubscription(spot))
             {
                 return await Task.FromResult<IActionResult>(new OkResult());
             }

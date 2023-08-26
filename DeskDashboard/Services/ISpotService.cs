@@ -9,5 +9,4 @@ public interface ISpotService
     void Pause();
     void Resume();
     bool AddSubscription(Spot spot);
-    
 }
