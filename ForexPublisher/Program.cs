@@ -41,34 +41,36 @@ public class Program
 
         var _ = app.Services.GetService<ForexPublisher.DataProducers.Forex>();
 
-        app.MapPost("/api/v1/addsubscription", async (Domain.Spot spot, ISpotService spotService) =>
+        app.MapPost("/api/v1/addsubscription", (ILogger<Program> _logger, ISpotService spotService, [FromBody] Domain.Spot spot ) =>
         {
             if (spotService.AddSubscription(spot))
             {
-                return await Task.FromResult<IActionResult>(new OkResult());
+                return Results.Ok(Results.Empty);
             }
             else
             {
-                return await Task.FromResult<IActionResult>(new BadRequestResult());
+                return Results.BadRequest(Results.Empty);
             }
         });
 
-        app.MapPost("/api/v1/stop", async (ISpotService spotService) =>
+        app.MapPost("/api/v1/stop", (ILogger<Program> _logger, ISpotService spotService) =>
         {
             spotService.Stop();
-            return await Task.FromResult<IActionResult>(new OkResult());
+            return Results.Ok(Results.Empty);
         });
 
-        app.MapPost("/api/v1/pause", async (ISpotService spotService) =>
+        app.MapPost("/api/v1/pause", (ILogger<Program> _logger, ISpotService spotService) =>
         {
+            _logger.LogInformation(".....Pausing");
             spotService.Pause();
-            return await Task.FromResult<IActionResult>(new OkResult());
+            return Results.Ok(Results.Empty);
         });
 
-        app.MapPost("/api/v1/resume", async (ISpotService spotService) =>
+        app.MapPost("/api/v1/resume", (ILogger<Program> _logger, ISpotService spotService) =>
         {
+            _logger.LogInformation("Resuming.....");
             spotService.Resume();
-            return await Task.FromResult<IActionResult>(new OkResult());
+            return Results.Ok(Results.Empty);
         });
 
         app.Run();
