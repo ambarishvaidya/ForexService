@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace DeskDashboard.Hubs
+namespace ForexPublisher.Hubs
 {
     /// <summary>
     /// SignalR implementation for the Forex Hub that will push data to the client.

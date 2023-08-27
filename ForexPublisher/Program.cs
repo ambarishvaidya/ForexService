@@ -1,9 +1,9 @@
-using DeskDashboard.Hubs;
-using DeskDashboard.Services;
+using ForexPublisher.Hubs;
+using ForexPublisher.Services;
 using Forex;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DeskDashboard;
+namespace ForexPublisher;
 
 public class Program
 {
@@ -27,7 +27,7 @@ public class Program
         builder.Services.AddSignalR();
 
         builder.Services.AddSingleton<ISpot, Spot>();
-        builder.Services.AddSingleton<DeskDashboard.DataProducers.Forex>();
+        builder.Services.AddSingleton<ForexPublisher.DataProducers.Forex>();
 
         builder.Services.AddScoped<ISpotService, SpotService>();
 
@@ -39,7 +39,7 @@ public class Program
 
         app.MapGet("/", () => "Hello World!");
 
-        var _ = app.Services.GetService<DeskDashboard.DataProducers.Forex>();
+        var _ = app.Services.GetService<ForexPublisher.DataProducers.Forex>();
 
         app.MapPost("/api/v1/addsubscription", async (Domain.Spot spot, ISpotService spotService) =>
         {

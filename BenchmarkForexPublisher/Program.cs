@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace BenchmarkDeskDashboard
+namespace BenchmarkForexPublisher
 {
     internal class Program
     {

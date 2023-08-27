@@ -1,7 +1,7 @@
-﻿using DeskDashboard.Domain;
+﻿using ForexPublisher.Domain;
 using Forex;
 
-namespace DeskDashboard.Services;
+namespace ForexPublisher.Services;
 
 public class SpotService : ISpotService
 {

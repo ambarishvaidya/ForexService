@@ -1,10 +1,10 @@
-﻿using DeskDashboard.Hubs;
+﻿using ForexPublisher.Hubs;
 using Forex;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.SignalR;
 using System.Text.Json;
 
-namespace DeskDashboard.DataProducers;
+namespace ForexPublisher.DataProducers;
 
 [EnableCors("ForexCorsPolicy")]
 public class Forex

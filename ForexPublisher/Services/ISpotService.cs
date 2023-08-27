@@ -1,6 +1,6 @@
-﻿using DeskDashboard.Domain;
+﻿using ForexPublisher.Domain;
 
-namespace DeskDashboard.Services;
+namespace ForexPublisher.Services;
 
 public interface ISpotService
 {

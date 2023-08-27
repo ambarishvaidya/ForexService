@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System.Text.Json;
 
-namespace BenchmarkDeskDashboard;
+namespace BenchmarkForexPublisher;
 
 [MemoryDiagnoser]
 public class DataProducerForex
@@ -106,20 +106,50 @@ public class DataProducerForex
 
 /**
 
+
 |           Method |             tickData |     Mean |     Error |    StdDev |   Gen0 |   Gen1 |   Gen2 | Allocated |
 |----------------- |--------------------- |---------:|----------:|----------:|-------:|-------:|-------:|----------:|
-| WithoutTaskSplit |   USD(...).5051 [49] | 1.547 us | 0.0129 us | 0.0107 us | 0.3128 |      - |      - |     656 B |
-|  WithoutTaskSpan |   USD(...).5051 [49] | 1.223 us | 0.0201 us | 0.0178 us | 0.1297 |      - |      - |     272 B |
-|         WithTask |   USD(...).5051 [49] | 1.452 us | 0.1031 us | 0.2990 us | 0.2155 | 0.0458 | 0.0076 |     709 B |
-|    WithTaskAsync |   USD(...).5051 [49] | 4.027 us | 0.0763 us | 0.1900 us | 0.4311 |      - |      - |     896 B |
-| WithoutTaskSplit | AUDUS(...).7351 [28] | 1.269 us | 0.0214 us | 0.0306 us | 0.2594 |      - |      - |     544 B |
-|  WithoutTaskSpan | AUDUS(...).7351 [28] | 1.071 us | 0.0193 us | 0.0171 us | 0.1068 |      - |      - |     224 B |
-|         WithTask | AUDUS(...).7351 [28] | 1.290 us | 0.1016 us | 0.2914 us | 0.2232 | 0.0305 | 0.0057 |     728 B |
-|    WithTaskAsync | AUDUS(...).7351 [28] | 5.084 us | 0.2322 us | 0.6357 us | 0.3777 |      - |      - |     784 B |
-| WithoutTaskSplit | GBPUS(...).0101 [34] | 1.641 us | 0.0328 us | 0.0449 us | 0.2747 |      - |      - |     576 B |
-|  WithoutTaskSpan | GBPUS(...).0101 [34] | 1.401 us | 0.0227 us | 0.0233 us | 0.1144 |      - |      - |     240 B |
-|         WithTask | GBPUS(...).0101 [34] | 1.593 us | 0.0965 us | 0.2739 us | 0.2232 | 0.0362 | 0.0076 |     709 B |
-|    WithTaskAsync | GBPUS(...).0101 [34] | 4.509 us | 0.0892 us | 0.1515 us | 0.3891 |      - |      - |     816 B |
+| WithoutTaskSplit |   USD(...).5051 [49] | 1.674 us | 0.0414 us | 0.1189 us | 0.3128 |      - |      - |     656 B |
+|  WithoutTaskSpan |   USD(...).5051 [49] | 1.346 us | 0.0392 us | 0.1054 us | 0.1297 |      - |      - |     272 B |
+|         WithTask |   USD(...).5051 [49] | 1.563 us | 0.1069 us | 0.3068 us | 0.2136 | 0.0362 | 0.0057 |     652 B |
+|    WithTaskAsync |   USD(...).5051 [49] | 3.852 us | 0.0715 us | 0.1539 us | 0.4272 |      - |      - |     897 B |
+| WithoutTaskSplit | AUDUS(...).7351 [28] | 1.199 us | 0.0204 us | 0.0181 us | 0.2594 |      - |      - |     544 B |
+|  WithoutTaskSpan | AUDUS(...).7351 [28] | 1.076 us | 0.0184 us | 0.0282 us | 0.1068 |      - |      - |     224 B |
+|         WithTask | AUDUS(...).7351 [28] | 1.884 us | 0.1808 us | 0.5329 us | 0.1411 | 0.0496 | 0.0095 |     550 B |
+|    WithTaskAsync | AUDUS(...).7351 [28] | 4.516 us | 0.2366 us | 0.6975 us | 0.3738 |      - |      - |     785 B |
+| WithoutTaskSplit | GBPUS(...).0101 [34] | 2.058 us | 0.1929 us | 0.5689 us | 0.2747 |      - |      - |     576 B |
+|  WithoutTaskSpan | GBPUS(...).0101 [34] | 2.408 us | 0.2115 us | 0.6237 us | 0.1144 |      - |      - |     240 B |
+|         WithTask | GBPUS(...).0101 [34] | 2.049 us | 0.1454 us | 0.4196 us | 0.1717 | 0.0420 | 0.0076 |     647 B |
+|    WithTaskAsync | GBPUS(...).0101 [34] | 6.949 us | 0.2082 us | 0.6139 us | 0.3815 |      - |      - |     817 B |
+
+// * Warnings *
+MultimodalDistribution
+  DataProducerForex.WithoutTaskSplit: Default -> It seems that the distribution can have several modes (mValue = 2.85)
+  DataProducerForex.WithTask: Default         -> It seems that the distribution can have several modes (mValue = 2.83)
+  DataProducerForex.WithTaskAsync: Default    -> It seems that the distribution can have several modes (mValue = 3.15)
+  DataProducerForex.WithoutTaskSpan: Default  -> It seems that the distribution is bimodal (mValue = 3.92)
+  DataProducerForex.WithTaskAsync: Default    -> It seems that the distribution can have several modes (mValue = 2.96)
+
+// * Hints *
+Outliers
+  DataProducerForex.WithoutTaskSplit: Default -> 5 outliers were removed (2.35 us..3.56 us)
+  DataProducerForex.WithoutTaskSpan: Default  -> 16 outliers were removed (1.81 us..2.13 us)
+  DataProducerForex.WithTask: Default         -> 5 outliers were removed, 6 outliers were detected (708.35 ns, 2.41 us..3.31 us)
+  DataProducerForex.WithTaskAsync: Default    -> 8 outliers were removed (4.39 us..6.39 us)
+  DataProducerForex.WithoutTaskSplit: Default -> 1 outlier  was  removed (1.31 us)
+  DataProducerForex.WithoutTaskSpan: Default  -> 6 outliers were removed (1.20 us..1.32 us)
+  DataProducerForex.WithTask: Default         -> 4 outliers were removed (3.18 us..3.95 us)
+
+// * Legends *
+  tickData  : Value of the 'tickData' parameter
+  Mean      : Arithmetic mean of all measurements
+  Error     : Half of 99.9% confidence interval
+  StdDev    : Standard deviation of all measurements
+  Gen0      : GC Generation 0 collects per 1000 operations
+  Gen1      : GC Generation 1 collects per 1000 operations
+  Gen2      : GC Generation 2 collects per 1000 operations
+  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+  1 us      : 1 Microsecond (0.000001 sec)
 
 **/
 
