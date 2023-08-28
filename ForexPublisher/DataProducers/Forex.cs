@@ -49,7 +49,7 @@ public class Forex
     /// </summary>
     /// <param name="tickData"></param>
     /// <returns></returns>
-    private TickerRecord DeserializeToRecord(string tickData)
+    internal TickerRecord DeserializeToRecord(string tickData)
     {
         ReadOnlySpan<char> tickDataSpan = tickData.AsSpan();
         int delimiter = tickDataSpan.IndexOf(':');
