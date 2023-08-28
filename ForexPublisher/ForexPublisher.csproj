@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="FinancialMarketSimulator.Forex" Version="1.0.0.6" />
+    <PackageReference Include="FluentValidation" Version="11.7.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
   </ItemGroup>
 
 </Project>

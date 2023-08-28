@@ -2,6 +2,9 @@ using ForexPublisher.Hubs;
 using ForexPublisher.Services;
 using Forex;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
+using ForexPublisher.Validations;
+using Microsoft.AspNetCore.Identity;
 
 namespace ForexPublisher;
 
@@ -11,17 +14,20 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("ForexCorsPolicy",
-                                   builder =>
-                                   {
-                                       builder.WithOrigins("http://localhost:3000")
-                                           .AllowAnyHeader()
-                                           .AllowAnyMethod()
-                                           .AllowCredentials();
-                                   });
-        });
+        // Adding CORS policy to allow the specigfic client to connect to the server.
+        //builder.Services.AddCors(options =>
+        //{
+        //    options.AddPolicy("ForexCorsPolicy",
+        //                           builder =>
+        //                           {
+        //                               builder.WithOrigins("http://localhost:3000")
+        //                                   .AllowAnyHeader()
+        //                                   .AllowAnyMethod()
+        //                                   .AllowCredentials();
+        //                           });
+        //});
+
+        builder.Services.AddCors();
 
         builder.Logging.ClearProviders().AddSimpleConsole();
         builder.Services.AddSignalR();
@@ -31,25 +37,29 @@ public class Program
 
         builder.Services.AddScoped<ISpotService, SpotService>();
 
+        builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
         var app = builder.Build();
 
-        app.UseCors("ForexCorsPolicy");
+        //app.UseCors("ForexCorsPolicy");
+        app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(origin => true));
 
-        app.MapHub<ForexHub>("/forexdata");
+        app.MapHub<ForexHub>("/ForexService");
 
         app.MapGet("/", () => "Hello World!");
 
         var _ = app.Services.GetService<ForexPublisher.DataProducers.Forex>();
 
-        app.MapPost("/api/v1/addsubscription", (ILogger<Program> _logger, ISpotService spotService, [FromBody] Domain.Spot spot ) =>
+        app.MapPost("/api/v1/addsubscription", async (ILogger<Program> _logger, IValidator<Domain.Spot> _spotValidator, ISpotService spotService, [FromBody] Domain.Spot spot ) =>
         {
-            if (spotService.AddSubscription(spot))
+            var result = await _spotValidator.ValidateAsync(spot);
+            if (result.IsValid && spotService.AddSubscription(spot))
             {
                 return Results.Ok(Results.Empty);
             }
             else
             {
-                return Results.BadRequest(Results.Empty);
+                return Results.BadRequest(!result.IsValid ? string.Join(Environment.NewLine, result.Errors) : Results.Empty);
             }
         });
 
