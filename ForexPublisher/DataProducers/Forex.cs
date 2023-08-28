@@ -30,7 +30,7 @@ public class Forex
     /// <param name="tickData">Updated Tick</param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    private async Task OnNewTickReceived(string tickData)
+    internal async Task OnNewTickReceived(string tickData)
     {
         try
         {
@@ -75,4 +75,4 @@ public class Forex
     }
 }
 
-public record struct TickerRecord(string Ticker, double Bid, double Ask, double Last);
+internal record struct TickerRecord(string Ticker, double Bid, double Ask, double Last);
