@@ -1,5 +1,4 @@
 ﻿using Forex;
-using ForexPublisher.Hubs;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -9,15 +8,15 @@ public class TestForexDataProducer
 {
     private Mock<ILogger<ForexPublisher.DataProducers.Forex>> _mockLogger;
     private Mock<ISpot> _mockSpot;
-    
-    
+
+
 
 
     [SetUp]
     public void SetUp()
     {
         _mockLogger = new Mock<ILogger<ForexPublisher.DataProducers.Forex>>();
-        _mockSpot = new Mock<ISpot>();       
+        _mockSpot = new Mock<ISpot>();
     }
 
     [TestCase("EURUSD:101.100, 101.102, 101.1015")]
@@ -32,8 +31,8 @@ public class TestForexDataProducer
         var forex = new ForexPublisher.DataProducers.Forex(_mockLogger.Object, null, _mockSpot.Object);
         var result = forex.DeserializeToRecord(newTick);
         Assert.IsTrue((result.Ticker == "EURUSD")
-            && (result.Bid == 101.100) 
-            && (result.Ask == 101.102) 
+            && (result.Bid == 101.100)
+            && (result.Ask == 101.102)
             && (result.Last == 101.1015));
     }
 
@@ -44,6 +43,6 @@ public class TestForexDataProducer
     {
         _mockSpot.Setup(s => s.Start());
         var forex = new ForexPublisher.DataProducers.Forex(_mockLogger.Object, null, _mockSpot.Object);
-        Assert.That(() => forex.DeserializeToRecord(newTick), Throws.Exception);        
+        Assert.That(() => forex.DeserializeToRecord(newTick), Throws.Exception);
     }
 }

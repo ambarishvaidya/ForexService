@@ -1,5 +1,4 @@
-﻿using ForexPublisher.Domain;
-using Forex;
+﻿using Forex;
 
 namespace ForexPublisher.Services;
 

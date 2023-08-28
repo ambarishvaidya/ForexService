@@ -1,10 +1,8 @@
+using FluentValidation;
+using Forex;
 using ForexPublisher.Hubs;
 using ForexPublisher.Services;
-using Forex;
 using Microsoft.AspNetCore.Mvc;
-using FluentValidation;
-using ForexPublisher.Validations;
-using Microsoft.AspNetCore.Identity;
 
 namespace ForexPublisher;
 
@@ -50,7 +48,7 @@ public class Program
 
         var _ = app.Services.GetService<ForexPublisher.DataProducers.Forex>();
 
-        app.MapPost("/api/v1/addsubscription", async (ILogger<Program> _logger, IValidator<Domain.Spot> _spotValidator, ISpotService spotService, [FromBody] Domain.Spot spot ) =>
+        app.MapPost("/api/v1/addsubscription", async (ILogger<Program> _logger, IValidator<Domain.Spot> _spotValidator, ISpotService spotService, [FromBody] Domain.Spot spot) =>
         {
             var result = await _spotValidator.ValidateAsync(spot);
             if (result.IsValid && spotService.AddSubscription(spot))
