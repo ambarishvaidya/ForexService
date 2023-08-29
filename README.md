@@ -34,3 +34,34 @@ The Financial Market Data Simulator generates realistic market data using a rand
 
 The library employs a PriceProducer that generates ticks within preconfigured PriceLimits for each ticker symbol. This efficient data generation process ensures a seamless and responsive experience for users interacting with the simulated market data.
 
+## Working
+
+-  Clone or download the solution, pull in the nuget packages..
+-  Modify launchSettings.json for any port changes.
+-  CORS is configured to accept all requests.
+   ```csharp
+   app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().SetIsOriginAllowed(origin => true));
+   ```
+-  SignalR Hub is configured at ForexService
+   ```csharp
+   app.MapHub<ForexHub>("/ForexService");
+   ```
+-  All other operations are mapped to
+  ```csharp
+  app.MapPost("/api/v1/<operation name>....
+  ```
+-  Build the project and run it.
+-  Add subscription
+  ```csharp
+  <your configured URL>/api/v1/addsubscription
+  ```
+  JSON data for subscription
+  ```json
+  {
+    "CurrencyPair": "USDINR",
+    "Bid":87.123,
+    "Ask":87.130,
+    "Spread": 0.006,
+    "PublishFrequencyInMs": 100
+  }
+  ```
