@@ -81,7 +81,8 @@ The library employs a PriceProducer that generates ticks within preconfigured Pr
 	await _hub.Clients.All.SendAsync("ForexTick", json);	
 	```
 
-Following the above steps, you should be able to see the data being published at the client side.
+Following the above steps, you should be able to see the data being published at the client side. 
+Please check [React Dashboard](https://github.com/ambarishvaidya/ReactTradeWatchDashboard) for Demo!
 
 ## Classes
 
