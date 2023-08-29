@@ -20,6 +20,13 @@ public class Forex
         _logger.LogInformation("Forex Data Producer registered for callback.");
         _spot.OnTickUpdate += OnNewTickReceived;
 
+        _spot.AddTickDefinition(new TickDefinition("EURUSD", 1.2000, 1.2001, 0.001, 1000));
+        _spot.AddTickDefinition(new TickDefinition("EURGBP", 0.8500, 0.8501, 0.001, 1500));
+        _spot.AddTickDefinition(new TickDefinition("EURJPY", 130.00, 130.01, 0.01, 1750));
+        _spot.AddTickDefinition(new TickDefinition("EURCHF", 1.1000, 1.1001, 0.001, 800));
+        _spot.AddTickDefinition(new TickDefinition("EURCAD", 1.5000, 1.5001, 0.001, 1200));
+        _spot.AddTickDefinition(new TickDefinition("EURAUD", 1.6000, 1.6001, 0.001, 2000));
+        _spot.AddTickDefinition(new TickDefinition("EURSEK", 10.000, 10.001, 0.001, 900));
         _spot.Start();
     }
 
