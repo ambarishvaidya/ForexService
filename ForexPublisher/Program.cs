@@ -44,8 +44,6 @@ public class Program
 
         app.MapHub<ForexHub>("/ForexService");
 
-        app.MapGet("/", () => "Hello World!");
-
         var _ = app.Services.GetService<ForexPublisher.DataProducers.Forex>();
 
         app.MapPost("/api/v1/addsubscription", async (ILogger<Program> _logger, IValidator<Domain.Spot> _spotValidator, ISpotService spotService, [FromBody] Domain.Spot spot) =>
@@ -78,6 +76,13 @@ public class Program
         {
             _logger.LogInformation("Resuming.....");
             spotService.Resume();
+            return Results.Ok(Results.Empty);
+        });
+
+        app.MapPost("/api/v1/start", (ILogger<Program> _logger, ISpotService spotService) =>
+        {   
+            _logger.LogInformation("Starting...");
+            spotService.Start();
             return Results.Ok(Results.Empty);
         });
 
