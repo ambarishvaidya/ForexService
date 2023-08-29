@@ -4,6 +4,8 @@ The ForexService is a powerful Spot Simulator service that utilizes the [Financi
 
 The primary goal of this service is to enable users to simulate trading activities and interact with financial data. The service relies on custom subscriptions that consumers can configure to monitor specific currency pairs. These subscriptions include details such as the currency pair, initial values for bid, ask and spread, and the publish frequency in milliseconds. When a subscription is activated, the service initiates data publishing.
 
+[For Service Demo](https://github.com/ambarishvaidya/ReactTradeWatchDashboard)
+
 ## Dependencies
 
 The ForexService project relies on the following key dependencies:
