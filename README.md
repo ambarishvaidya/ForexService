@@ -2,7 +2,7 @@
 
 The ForexService is a powerful Spot Simulator service that utilizes the [FinancialMarketSimulator](https://github.com/ambarishvaidya/FinancialMarketSimulator) library. This project is built with ASP.NET and employs the SignalR technology to provide real-time market data updates to clients in JSON format.
 
-The primary goal of this service is to enable users to simulate trading activities, visualize market trends, and interact with financial data through a user-friendly dashboard. The service relies on custom subscriptions that consumers can configure to monitor specific currency pairs. These subscriptions include details such as the currency pair, initial bid, ask, spread, and the publish frequency in milliseconds. When a subscription is activated, the service initiates data publishing.
+The primary goal of this service is to enable users to simulate trading activities and interact with financial data. The service relies on custom subscriptions that consumers can configure to monitor specific currency pairs. These subscriptions include details such as the currency pair, initial values for bid, ask and spread, and the publish frequency in milliseconds. When a subscription is activated, the service initiates data publishing.
 
 ## Dependencies
 
