@@ -19,7 +19,7 @@ public class SpotService : ISpotService
         {
             _spot.AddTickDefinition(new TickDefinition(spot.CurrencyPair, spot.Bid, spot.Ask, spot.Spread, spot.PublishFrequencyInMs));
             Start();
-            var resp = _spot.GetScheduledTicks().First(tick => tick.ccyPair == spot.CurrencyPair && tick.frequency == spot.PublishFrequencyInMs);
+            var resp = _spot.GetScheduledTicks().First(tick => tick.ccyPair == spot.CurrencyPair);
         }
         catch (Exception ex)
         {
